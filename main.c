@@ -17,6 +17,10 @@ int main() {
 
         input[strcspn(input, "\n")] = '\0';
 
+        if (strlen(input) == 0) {
+            continue;
+        }
+
         if (strcmp(input, "exit") == 0) {
             break;
         }
