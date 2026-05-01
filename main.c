@@ -24,6 +24,16 @@ int main() {
         if (strcmp(input, "exit") == 0) {
             break;
         }
+
+        int i = 0;
+        args[i] = strtok(input, " ");
+
+        while(args[i] != NULL && i < MAX_ARGS - 1) {
+            i++;
+            args[i] = strtok(NULL, " ");
+        }
+
+        args[i] = NULL;
     }
 
     return 0;
