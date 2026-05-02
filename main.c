@@ -11,6 +11,10 @@ int main() {
     char *args[MAX_ARGS];
 
     while (1) {
+        char workdir[256];
+        getcwd(workdir, sizeof(workdir));
+
+        printf("%s\n", workdir);
         printf("myshell> ");
         fflush(stdout);
 
