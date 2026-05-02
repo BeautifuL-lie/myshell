@@ -38,11 +38,22 @@ int main() {
 
         args[i] = NULL;
 
+        // Built-in CD
+        if (strcmp(args[0], "cd") == 0) {
+            if (args[1] == NULL) {
+                chdir(getenv("HOME"));
+            } else {
+                if (chdir(args[1]) != 0) {
+                    perror("cd fail");
+                }
+            }
+            continue;
+        }
+
         pid_t pid = fork();
 
         if (pid == 0) {
             execvp(args[0], args);
-
             perror("exec fail");
             exit(1);
         } else if (pid > 0) {
