@@ -48,7 +48,7 @@ int main() {
                 chdir(getenv("HOME"));
             } else {
                 if (chdir(args[1]) != 0) {
-                    perror("cd fail");
+                    perror("cd");
                 }
             }
             continue;
@@ -58,12 +58,12 @@ int main() {
 
         if (pid == 0) {
             execvp(args[0], args);
-            perror("exec fail");
+            perror("myshell");
             exit(1);
         } else if (pid > 0) {
             wait(NULL);
         } else {
-            perror("fork fail");
+            perror("myshell");
         }
     }
 
