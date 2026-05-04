@@ -44,7 +44,7 @@ int main() {
 
         // Built-in CD
         if (strcmp(args[0], "cd") == 0) {
-            if (args[1] == NULL) {
+            if (args[1] == NULL || strcmp(args[1], "~") == 0) {
                 chdir(getenv("HOME"));
             } else {
                 if (chdir(args[1]) != 0) {
