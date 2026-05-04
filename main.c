@@ -45,7 +45,9 @@ int main() {
         // Built-in CD
         if (strcmp(args[0], "cd") == 0) {
             if (args[1] == NULL || strcmp(args[1], "~") == 0) {
-                chdir(getenv("HOME"));
+                if (chdir(getenv("HOME")) != 0) {
+                    printf("cd: HOME environment not set\n");
+                }
             } else {
                 if (chdir(args[1]) != 0) {
                     perror("cd");
