@@ -53,6 +53,18 @@ int main() {
             }
             continue;
         }
+        
+        //Built-in exec
+        if (strcmp(args[0], "exec") == 0) {
+            if (args[1] == NULL) {
+                printf("exec needs argument!\n");
+                continue;
+            }
+
+            execvp(args[1], args + 1);
+            perror("myshell");
+            continue;
+        }
 
         pid_t pid = fork();
 
