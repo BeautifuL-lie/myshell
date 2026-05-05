@@ -33,11 +33,12 @@ int main() {
         }
 
         int i = 0;
-        args[i] = strtok(input, " ");
+        char *saveptr;
+        args[i] = strtok_r(input, " ", &saveptr);
 
         while(args[i] != NULL && i < MAX_ARGS - 1) {
             i++;
-            args[i] = strtok(NULL, " ");
+            args[i] = strtok_r(NULL, " ", &saveptr);
         }
 
         args[i] = NULL;
