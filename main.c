@@ -15,7 +15,7 @@ int main() {
         getcwd(workdir, sizeof(workdir));
 
         printf("%s\n", workdir);
-        printf("myshell> ");
+        printf("~> ");
         fflush(stdout);
 
         if (fgets(input, sizeof(input), stdin) == NULL) {
