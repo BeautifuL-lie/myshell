@@ -11,6 +11,8 @@ int main() {
     char *args[MAX_ARGS];
 
     while (1) {
+        putchar('\n');
+
         char workdir[256];
         getcwd(workdir, sizeof(workdir));
 
