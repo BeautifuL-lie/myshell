@@ -120,8 +120,8 @@ int main() {
             close(fd[0]);
             close(fd[1]);
 
-            wait(NULL);
-            wait(NULL);
+            waitpid(p2, NULL, 0);
+            waitpid(p1, NULL, 0);
 
             continue;
         }
@@ -170,7 +170,7 @@ int main() {
             perror("myshell");
             exit(1);
         } else if (pid > 0) {
-            wait(NULL);
+            waitpid(pid, NULL, 0);
         } else {
             perror("myshell");
         }
