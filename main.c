@@ -43,7 +43,7 @@ int containPipe(char *input) {
     return count;
 }
 
-void parsePipe(char *input, char **args1, char **args2) {
+void parsepipe(char *input, char **args1, char **args2) {
     char *pipe_pos = strchr(input, '|');
     *pipe_pos = '\0';
 
@@ -119,7 +119,7 @@ void execpipe(char **args1, char **args2) {
     waitpid(p2, NULL, 0);
 }
 
-void parseInput(char *input, char **args) {
+void parseinput(char *input, char **args) {
     int i = 0;
     char *saveptr;
     args[i] = strtok_r(input, " \t\r\n", &saveptr);
@@ -205,7 +205,7 @@ int main() {
         int pipe_n = containPipe(input);
         
         if (pipe_n == 1) {
-            parsePipe(input, args, args_r);
+            parsepipe(input, args, args_r);
             execpipe(args, args_r);
             continue;
         } else if (pipe_n > 1) {
@@ -213,7 +213,7 @@ int main() {
             continue;
         }
         
-        parseInput(input, args);
+        parseinput(input, args);
         if (args[0] == NULL) {
             continue;
         }
