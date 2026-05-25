@@ -191,8 +191,8 @@ void execcmd (char **args) {
 
 int main() {
     char input[MAX_INPUT];
-    char *args[MAX_ARGS];
-    char *args_r[MAX_ARGS];
+    char *args1[MAX_ARGS];
+    char *args2[MAX_ARGS];
 
     while (1) {
         printprompt();
@@ -205,25 +205,25 @@ int main() {
         int pipe_n = containPipe(input);
         
         if (pipe_n == 1) {
-            parsepipe(input, args, args_r);
-            execpipe(args, args_r);
+            parsepipe(input, args1, args2);
+            execpipe(args1, args2);
             continue;
         } else if (pipe_n > 1) {
             printf("myshell: only support 1 pipe rn -_-\n");
             continue;
         }
         
-        parseinput(input, args);
-        if (args[0] == NULL) {
+        parseinput(input, args1);
+        if (args1[0] == NULL) {
             continue;
         }
 
-        if (isbuiltincmd(args[0])) {
-            execbuiltin(args);
+        if (isbuiltincmd(args1[0])) {
+            execbuiltin(args1);
             continue;
         }
 
-        execcmd(args);
+        execcmd(args1);
     }
 
     return 0;
