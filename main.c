@@ -29,7 +29,7 @@ void getinput(char *buf) {
     buf[strcspn(buf, "\n")] = '\0';
 }
 
-int containPipe(char *input) {
+int containpipe(char *input) {
     int count = 0;
     int index = 0;
 
@@ -202,7 +202,7 @@ int main() {
             continue;
         }
 
-        int pipe_n = containPipe(input);
+        int pipe_n = containpipe(input);
         
         if (pipe_n == 1) {
             parsepipe(input, args1, args2);
