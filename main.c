@@ -144,6 +144,24 @@ int isbuiltincmd(char *args) {
     return 0;
 }
 
+void expvar(char** args) {
+    int i = 0;
+    char *str;
+    char *env;
+
+    while(args[i] != NULL) {
+        str = strchr(args[i], '$');
+        if (str != NULL) {
+            str++;
+            env = getenv(str);
+            if (env != NULL) {
+                args[i] = env;
+            }
+        }
+        i++;
+    }
+}
+
 void execbuiltin(char **args) {
     //EXIT
     if (strcmp(args[0], "exit") == 0) exit(0);
@@ -206,6 +224,8 @@ int main() {
         
         if (pipe_n == 1) {
             parsepipe(input, args1, args2);
+            expvar(args1);
+            expvar(args2);
             execpipe(args1, args2);
             continue;
         } else if (pipe_n > 1) {
@@ -214,6 +234,7 @@ int main() {
         }
         
         parseinput(input, args1);
+        expvar(args1);
         if (args1[0] == NULL) {
             continue;
         }
