@@ -156,6 +156,8 @@ void expvar(char** args) {
             env = getenv(str);
             if (env != NULL) {
                 args[i] = env;
+            } else {
+                args[i] = "";
             }
         }
         i++;
