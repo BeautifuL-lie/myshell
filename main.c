@@ -147,11 +147,16 @@ int isbuiltincmd(char *args) {
 void expvar(char** args) {
     int i = 0;
     char *str;
+    char *single_quote;
+    char *double_quote;
     char *env;
 
-    while(args[i] != NULL) {
+    while (args[i] != NULL) {
         str = strchr(args[i], '$');
-        if (str != NULL) {
+        single_quote = strchr(args[i], '\'');
+        double_quote = strchr(args[i], '\"');
+
+        if (str != NULL && single_quote == NULL && double_quote == NULL) {
             str++;
             env = getenv(str);
             if (env != NULL) {
@@ -159,7 +164,24 @@ void expvar(char** args) {
             } else {
                 args[i] = "";
             }
+        } else if (str != NULL && double_quote != NULL) {
+            str++;
+            char *temp = str;
+
+            while (*temp != '\0') {
+                temp++;
+                if (*temp == '\"') {
+                    *temp = '\0';
+                }
+            } 
+            env = getenv(str);
+            if (env != NULL) {
+                args[i] = env;
+            } else {
+                args[i] = "";
+            }
         }
+
         i++;
     }
 }
