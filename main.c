@@ -191,14 +191,27 @@ void execbuiltin(char **args) {
     if (strcmp(args[0], "exit") == 0) exit(0);
 
     //CD
-    if (strcmp(args[0], "cd") == 0) {
+    if (strcmp(args[0], "cd") == 0) { 
+        char workdir[256];
+        getcwd(workdir, sizeof(workdir));
+
         if (args[1] == NULL || strcmp(args[1], "~") == 0) {
             if (chdir(getenv("HOME")) != 0) {
                 printf("cd: HOME environment not set\n");
+            } else {
+                setenv("OLDPWD", workdir, 1);
+            }
+        } else if (strcmp(args[1], "-") == 0) {
+            if (chdir(getenv("OLDPWD")) != 0) {
+                printf("cd: failed!\n");
+            } else {
+                setenv("OLDPWD", workdir, 1);
             }
         } else {
             if (chdir(args[1]) != 0) {
                 perror("cd");
+            } else {
+                setenv("OLDPWD", workdir, 1);
             }
         }
         return;
