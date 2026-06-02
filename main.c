@@ -21,6 +21,13 @@ void printprompt() {
     fflush(stdout);
 }
 
+void setpwd() {
+    char workdir[256];
+    getcwd(workdir, sizeof(workdir));
+
+    setenv("PWD", workdir, 1);
+}
+
 void getinput(char *buf) {
     if (fgets(buf, MAX_INPUT, stdin) == NULL) {
         exit(0);
@@ -200,18 +207,21 @@ void execbuiltin(char **args) {
                 printf("cd: HOME environment not set\n");
             } else {
                 setenv("OLDPWD", workdir, 1);
+                setpwd();
             }
         } else if (strcmp(args[1], "-") == 0) {
             if (chdir(getenv("OLDPWD")) != 0) {
                 printf("cd: failed!\n");
             } else {
                 setenv("OLDPWD", workdir, 1);
+                setpwd();
             }
         } else {
             if (chdir(args[1]) != 0) {
                 perror("cd");
             } else {
                 setenv("OLDPWD", workdir, 1);
+                setpwd();
             }
         }
         return;
@@ -248,6 +258,8 @@ int main() {
     char input[MAX_INPUT];
     char *args1[MAX_ARGS];
     char *args2[MAX_ARGS];
+
+    setpwd();
 
     while (1) {
         printprompt();
