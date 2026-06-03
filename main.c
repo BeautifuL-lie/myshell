@@ -4,17 +4,39 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <ctype.h>
+#include <pwd.h>
 
 #define MAX_INPUT 256
 #define MAX_ARGS 64
 
 char *built_in_cmd[] = {"exit", "cd", "exec", NULL};
 
+void gethomedir(char *buf, size_t size) {
+   struct passwd *pw = getpwuid(getuid());
+
+    if (pw) {
+        snprintf(buf, size, "/home/%s", pw->pw_name);
+    }
+}
+
 void printprompt() {
     putchar('\n');
 
     char workdir[256];
     getcwd(workdir, sizeof(workdir));
+    
+    char homedir[256];
+    gethomedir(homedir, sizeof(homedir));
+
+    char *homeptr = strstr(workdir, homedir);
+
+    if (homeptr != NULL) {
+        printf("~%s\n", homeptr + strlen(homedir));
+        printf("~> ");
+        fflush(stdout);
+
+        return;
+    }
 
     printf("%s\n", workdir);
     printf("~> ");
