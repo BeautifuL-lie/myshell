@@ -173,6 +173,8 @@ void expvar(char** args) {
     char *double_quote;
     char *env;
 
+    char *homedir = getenv("HOME");
+
     while (args[i] != NULL) {
         str = strchr(args[i], '$');
         single_quote = strchr(args[i], '\'');
@@ -204,6 +206,10 @@ void expvar(char** args) {
             }
         }
 
+        if (strcmp(args[i], "~") == 0 && homedir != NULL) {
+            args[i] = homedir;
+        }
+
         i++;
     }
 }
@@ -217,7 +223,7 @@ void execbuiltin(char **args) {
         char workdir[256];
         getcwd(workdir, sizeof(workdir));
 
-        if (args[1] == NULL || strcmp(args[1], "~") == 0) {
+        if (args[1] == NULL) {
             if (chdir(getenv("HOME")) != 0) {
                 printf("cd: HOME environment not set\n");
             } else {
