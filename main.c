@@ -131,6 +131,7 @@ void execpipe(char **args1, char **args2) {
         close(fd[1]);
 
         execvp(args2[0], args2);
+        perror("myshell");
         exit(1);
     }
 
